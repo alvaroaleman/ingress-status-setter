@@ -1,6 +1,6 @@
 
 # Image URL to use all building/pushing image targets
-IMG ?= controller:latest
+IMG ?= docker.io/alvaroaleman/ingress-status-setter
 
 all: test manager
 
