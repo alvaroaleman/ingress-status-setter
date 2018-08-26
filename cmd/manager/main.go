@@ -16,10 +16,12 @@ limitations under the License.
 package main
 
 import (
+	"flag"
 	"log"
 
 	"github.com/alvaroaleman/ingress-status-setter/pkg/apis"
 	"github.com/alvaroaleman/ingress-status-setter/pkg/controller"
+	"github.com/alvaroaleman/ingress-status-setter/pkg/controller/ingress"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	"sigs.k8s.io/controller-runtime/pkg/client/config"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
@@ -27,6 +29,12 @@ import (
 )
 
 func main() {
+	targetAddress := flag.String("target-address", "", "the address to point the ingress status to")
+	flag.Parse()
+
+	if *targetAddress != "" {
+		ingress.TargetAddress = *targetAddress
+	}
 	// Get a config to talk to the apiserver
 	cfg, err := config.GetConfig()
 	if err != nil {
